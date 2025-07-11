@@ -393,19 +393,6 @@ function initialize() {
   // Create quick access panel
   setTimeout(createQuickAccessPanel, 2000);
 }
-
-// Start the application
-initialize();
-
-// Export for debugging
-window.frontDeskWizAI = {
-  scanProspects,
-  highlightProspect,
-  initiateCall,
-  recordCallAttempt,
-  rules
-};
-// Function added Gemini sugestion
 function createDashboardContainer() {
   // Check if the dashboard already exists
   if (document.getElementById('ai-dashboard')) {
@@ -426,3 +413,17 @@ function createDashboardContainer() {
   
   document.body.appendChild(dashboard);
 }
+
+// ---- The Important Change is Here ----
+
+// 1. First, export the functions needed by other scripts to the window object.
+window.frontDeskWizAI = {
+  scanProspects,
+  highlightProspect,
+  initiateCall,
+  recordCallAttempt,
+  rules
+};
+
+// Start the application
+initialize();

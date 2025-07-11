@@ -21,14 +21,14 @@
   "content_scripts": [
     {
       "matches": ["https://*.irslogics.com/*"],
-  "js": [
-    "performance-tracker.js",
-    "prospect-analyzer.js",
-    "call-optimizer.js",
-    "content.js",  
-    "ai-engine.js", 
-    "automation-engine.js" 
-  ],
+"js": [
+    "performance-tracker.js",  
+    "prospect-analyzer.js",    
+    "call-optimizer.js",       
+    "ai-engine.js",            
+    "automation-engine.js",    
+    "content.js"               
+],
       "css": ["styles.css"]
     }
   ],

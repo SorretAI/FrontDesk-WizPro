@@ -29,6 +29,32 @@ this.automationEngine = new AutomationEngine(this.callOptimizer, this.performanc
     this.startIntelligentAutomation();
   }
 
+  async loadTinyModel(modelName) {
+    console.log(`Loading model: ${modelName}`);
+    // Placeholder - in production, load actual TensorFlow.js models
+    return { predict: () => Math.random() };
+}
+
+showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `frontdesk-notification frontdesk-${type}`;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        background: ${type === 'success' ? '#4CAF50' : '#2196F3'};
+        color: white;
+        border-radius: 6px;
+        z-index: 10000;
+        animation: slideIn 0.3s ease;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => notification.remove(), 4000);
+}
+
   async loadAIModels() {
     // This is a placeholder as the implementation is not provided.
     console.log("Loading AI models...");

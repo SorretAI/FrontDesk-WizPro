@@ -84,5 +84,67 @@ class PerformanceTracker {
     // Return the metrics so the console log in content.js works
     return this.metrics;
   }
+  updateMetrics(callData) {
+    const hour = new Date().getHours();
+    
+    // Track calls per hour
+    if (!this.metrics.callsPerHour[hour]) {
+        this.metrics.callsPerHour[hour] = 0;
+    }
+    this.metrics.callsPerHour[hour]++;
+    
+    // Update funnel
+    this.metrics.conversionFunnel.dialed++;
+    if (callData.answered) this.metrics.conversionFunnel.answered++;
+    if (callData.interested) this.metrics.conversionFunnel.interested++;
+}
+
+getCurrentPerformanceLevel() {
+    const totalCalls = this.metrics.conversionFunnel.dialed || 1;
+    const successRate = (this.metrics.conversionFunnel.interested / totalCalls * 100).toFixed(1);
+    
+    return {
+        successRate,
+        performance: successRate > 15 ? 'excellent' : successRate > 10 ? 'good' : 'needs improvement'
+    };
+}
+
+calculateTargetProgress() {
+    const target = 200;
+    const current = this.metrics.conversionFunnel.dialed;
+    return Math.min((current / target * 100).toFixed(1), 100);
+}
+
+getOptimizationSuggestions() {
+    const suggestions = [];
+    const currentHour = new Date().getHours();
+    const performance = this.getCurrentPerformanceLevel();
+    
+    if (performance.successRate < 10) {
+        suggestions.push("Try adjusting your call script");
+    }
+    
+    if (currentHour < 9 || currentHour > 17) {
+        suggestions.push("Consider calling during business hours");
+    }
+    
+    if (this.metrics.conversionFunnel.dialed < 50 && currentHour > 12) {
+        suggestions.push("Increase call pace to meet daily target");
+    }
+    
+    return suggestions;
+}
+
+predictEndOfDayResults() {
+    const currentCalls = this.metrics.conversionFunnel.dialed;
+    const hoursLeft = Math.max(17 - new Date().getHours(), 0);
+    const avgCallsPerHour = currentCalls / (new Date().getHours() - 9 + 1);
+    const predictedTotal = currentCalls + (avgCallsPerHour * hoursLeft);
+    
+    return {
+        predictedCalls: Math.round(predictedTotal),
+        willMeetTarget: predictedTotal >= 200
+    };
+}
 }
 

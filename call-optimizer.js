@@ -121,4 +121,48 @@ class CallOptimizer {
     
     return recommendations;
   }
+  async analyzeProspect(prospect) {
+    // Use the ProspectAnalyzer if available
+    if (window.ProspectAnalyzer) {
+        const analyzer = new ProspectAnalyzer();
+        return analyzer.analyzeProspect(prospect);
+    }
+    // Fallback analysis
+    return {
+        score: Math.random() * 100,
+        callTiming: { recommendedTime: 10 },
+        successProbability: 0.5,
+        priority: 'medium',
+        recommendedApproach: 'standard'
+    };
+}
+
+getFallbackProspect() {
+    // Return any available prospect when no optimal ones exist
+    return this.callQueue.find(p => 
+        (this.dialingStats.callAttempts[p.id] || 0) < 5
+    ) || null;
+}
+
+async storeCallData(data) {
+    const key = `call_data_${data.prospectId}_${Date.now()}`;
+    await chrome.storage.local.set({ [key]: data });
+}
+
+calculateAverageCallTime() {
+    // Placeholder - implement actual calculation
+    return "3:45";
+}
+
+findBestPerformingHours() {
+    // Placeholder - implement actual analysis
+    return ["10am-12pm", "2pm-4pm"];
+}
+
+getTimeBasedRecommendation() {
+    const hour = new Date().getHours();
+    if (hour < 9) return "Wait until 9 AM for better contact rates";
+    if (hour > 17) return "Consider wrapping up - contact rates drop after 5 PM";
+    return "Current time is optimal for calling";
+}
 }

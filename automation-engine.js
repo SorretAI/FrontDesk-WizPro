@@ -4,7 +4,7 @@ class AutomationEngine {
     this.isRunning = false;
     this.automationLevel = 'manual'; // manual, semi-auto, full-auto
     this.callInterval = 30000; // 30 seconds between calls
-    //this.inboundMonitor = new InboundCallMonitor();
+    this.inboundMonitor = new InboundCallMonitor();
 
     // Store the tools we were given
     this.callOptimizer = callOptimizer;
@@ -32,7 +32,7 @@ class AutomationEngine {
     }, this.callInterval);
     
     // Start inbound call monitoring
-    //this.inboundMonitor.start();
+        this.inboundMonitor.start();
     
     // Smart break detection
     this.setupSmartBreaks();
@@ -110,6 +110,28 @@ class AutomationEngine {
     });
     */
   }
+}
+
+// InboundCallMonitor class should be defined outside of AutomationEngine
+class InboundCallMonitor {
+    constructor() {
+        this.hasInbound = false;
+        this.callbacks = [];
+    }
+    
+    start() {
+        console.log('📞 Inbound call monitoring started');
+    }
+    
+    hasInboundCall() {
+        // In production, check for actual inbound calls
+        return this.hasInbound;
+    }
+    
+    onCallComplete(callback) {
+        this.callbacks.push(callback);
+    }
+}
 
   setupSmartBreaks() {
     // AI-powered break scheduling
@@ -133,20 +155,7 @@ class AutomationEngine {
       (this.callOptimizer.dialingStats.successRate < 10) // CORRECT: Access through callOptimizer
     );
   }
-  // --- START OF PLACEHOLDER METHODS ---
-  // These are empty functions to prevent crashes during testing.
-
-  async prepareCall(prospect) {
-    console.log('Placeholder: Preparing call for', prospect.phone);
-    // Return a dummy object so the next line doesn't fail
-    return {
-      prospectSummary: "A very important prospect.",
-      callStrategy: "Be friendly and helpful.",
-      talkingPoints: ["Mention their interest in our services."],
-      previousInteractions: [],
-      successPrediction: 0.75
-    };
-  }
+ 
 
   displayCallPrep(callPrep) {
     console.log('Placeholder: Displaying call prep info:', callPrep);

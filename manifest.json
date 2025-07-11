@@ -1,0 +1,58 @@
+{
+  "manifest_version": 3,
+  "name": "FrontDesk-Wiz AI Pro",
+  "version": "2.0.0",
+  "description": "AI-powered calling assistant with intelligent automation for IRSL Logics CRM",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "notifications",
+    "webNavigation",
+    "scripting",
+    "commands"
+  ],
+  "host_permissions": [
+    "https://*.irslogics.com/*",
+    "https://*.ringcentral.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.irslogics.com/*"],
+  "js": [
+    "performance-tracker.js",
+    "prospect-analyzer.js",
+    "call-optimizer.js",
+    "content.js",  
+    "ai-engine.js", 
+    "automation-engine.js" 
+  ],
+      "css": ["styles.css"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "FrontDesk-Wiz AI Pro"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "commands": {
+    "intelligent-call": {
+      "suggested_key": {
+        "default": "Alt+C"
+      },
+      "description": "Make an intelligent call to the next prospect."
+    },
+    "next-prospect": {
+      "suggested_key": {
+        "default": "Alt+N"
+      },
+      "description": "Move to the next optimal prospect."
+    }
+  }
+}

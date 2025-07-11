@@ -4,3 +4,4 @@ Thumbs.db
 
 # IDE/Editor folders
 .vscode/
+*:Zone.Identifier
